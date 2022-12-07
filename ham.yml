@@ -1,0 +1,13 @@
+title: "Lineage OS 19.1 (Enchilada) (Signed)"
+version: "0.0.1"
+
+build:
+  - name: Making Directory
+    run: mkdir lineage
+
+  - name: Do Something
+    run: sleep 40
+
+post_build:
+  - sleep 20
+  # Upload your files here.
