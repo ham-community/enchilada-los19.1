@@ -1,13 +1,82 @@
 title: "Lineage OS 19.1 (Enchilada) (Signed)"
-version: "0.0.1"
+version: "0.1.0"
+
+args:
+  - id: android_certs
+    prompt: "Path to Android Certs .zip file Un-Encrypted"
+    required: true
+    type: file
+
+  # Sets a env var UPDATER_URL="The Users Input" 
+  - id: updater_url
+    prompt: "Updater URL"
+    required: false
+    type: value
 
 build:
-  - name: Making Directory
-    run: mkdir lineage
+  - name: Copy Android Certificates
+    run: |
+      cd /root/
+      mv $ANDROID_CERTS certs.zip
+      mkdir .android-certs
+      mv certs.zip .android-certs/certs.zip
+      cd .android-certs
+      unzip certs.zip
+      rm -rf certs.zip
+      cd /ham-build
 
-  - name: Do Something
-    run: sleep 40
+  - name: Make Required Directories
+    run: |
+      mkdir android
+      mkdir apks
+      cd android 
+
+  - name: Repo Init LineageOS-19.1
+    run: |
+      repo init -u https://github.com/LineageOS/android.git -b lineage-19.1
+      repo sync
+      mkdir -p .repo/local_manifests
+
+  - name: Add F-Droid PrivilegedExtensions 
+    run: cp /ham-recipe/source/F-DroidPrivilegedExtension.xml /ham-build/android/.repo/local_manifests
+
+  - name: Add The Muppets
+    run: cp /ham-recipe/source/TheMuppets.xml /ham-build/android/.repo/local_manifests
+
+  - name: Patch LineageOS to Enable AVB
+    run: |
+      patch /ham-build/android/build/make/core/Makefile /ham-recipe/patches/core_Makefile.patch
+      patch /ham-build/android/build/tools/releasetools/add_img_to_target_files.py /ham-recipe/patches/add_img_to_target_files.py.patch
+      patch /ham-build/android/build/tools/releasetools/sign_target_files_apks.py /ham-recipe/patches/sign_target_files_apks.py.patch
+
+  - name: Change Updater URL
+    run: /ham-recipe/scripts/add-updater-url.sh
+
+  - name: Patch LineageOS Updater
+    run: patch /ham-build/android/packages/apps/Updater/src/org/lineageos/updater/misc/Utils /ham-recipe/patches/updater-canInstall.patch
+
+  - name: Add Extra Vender
+    run: /ham-recipe/scripts/add-vendor-extra.sh
+
+  - name: Remove LineageOS Keys
+    run: /ham-recipe/scripts/remove-lineage-keys.sh
+
+  - name: Get Latest F-Droid APK
+    run: |
+      cd /ham-build/apks
+      /ham-recipe/scripts/get_fdroid.sh
+      cd /ham-build/android
+
+  - name: Add F-Droid
+    run: /ham-recipe/scripts/add-fdroid-apk.sh
+
+  - name: Repo Sync
+    run: |
+      cd /ham-build/android
+      repo sync
+
+  - name: Building and Signing LineageOS
+    run: /ham-recipe/scripts/build.sh
 
 post_build:
-  - sleep 20
   # Upload your files here.
