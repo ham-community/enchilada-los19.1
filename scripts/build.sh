@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+set -e
 VENDOR=oneplus
 LOS_DEVICE=enchilada
 
@@ -16,21 +16,7 @@ cd /ham-build/android
 
 
 BCFILE=/ham-build/android/device/$VENDOR/$LOS_DEVICE/BoardConfig.mk
-BCADDITIONS="
-# Enable RADIO files so we can add the firmware IMGs to the OTA.
-ADD_RADIO_FILES := true
-
-# Set the AVB key and hash algorithm.
-BOARD_AVB_KEY_PATH := /root/.android-certs/releasekey.key
-BOARD_AVB_ALGORITHM := SHA256_RSA2048
-
-# Include the rest of the prebuilt partitions.
-# The following three images are exclude as lineage recovery doesn't seem to be able to flash them: india.img, reserve.img
-AB_OTA_PARTITIONS += abl aop bluetooth cmnlib cmnlib64 devcfg dsp fw_4j1ed fw_4u1ea hyp keymaster LOGO modem oem_stanvbk qupfw storsec tz xbl xbl_config
-"
-
-echo $BCADDITIONS >> $BCFILE
-
+cat /ham-recipe/source/BoardConfigAdditions.mk >> $BCFILE
 
 BCCFILE=/ham-build/android/device/$VENDOR/sdm845-common/BoardConfigCommon.mk
 # We need to remove the flag that disables the partition verification during boot if it hasn't been already
@@ -99,12 +85,10 @@ echo "Build process complete for $DEVICE!"
 
 echo "Sign target APK's with prebuilt vendor partitions..."
 
-export LOS_INTERMEDIATES_DIR=$OUT/target/product/obj/PACKAGING/target_files_intermediates
+export LOS_INTERMEDIATES_DIR=/ham-build/android/out/target/product/$LOS_DEVICE/obj/PACKAGING/target_files_intermediates
 
 # Make sure our vendor image directory exists.
-if [ ! -d /ham-build/android/device/$VENDOR/$LOS_DEVICE/images/vendor ]; then
-   mkdir -p /ham-build/android/device/$VENDOR/$LOS_DEVICE/images/vendor
-fi
+mkdir -p /ham-build/android/device/$VENDOR/$LOS_DEVICE/images/vendor
 
 # Get the signed vendor.img from the out directory.
 cp $LOS_INTERMEDIATES_DIR/lineage_$LOS_DEVICE-target_files-eng.root/IMAGES/vendor.img /ham-build/android/device/$VENDOR/$LOS_DEVICE/images/vendor

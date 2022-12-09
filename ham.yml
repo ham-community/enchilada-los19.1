@@ -7,10 +7,20 @@ args:
     required: true
     type: file
 
-  # - id: github_token
-  #   prompt: "Github Repo Token"
-  #   required: true
-  #   type: secret
+  - id: github_token
+    prompt: "Github Repo Token"
+    required: false
+    type: secret
+
+  - id: github_user
+    prompt: "Github Username"
+    required: false
+    type: value
+
+  - id: github_repo
+    prompt: "Github Repo"
+    required: false
+    type: value
 
   # Sets a env var UPDATER_URL="The Users Input" 
   - id: updater_url
@@ -32,6 +42,13 @@ build:
       mv certs.zip .android-certs/certs.zip
       cd .android-certs
       unzip certs.zip
+      openssl pkcs8 -in releasekey.pk8 -inform DER -out releasekey.key -nocrypt
+      openssl pkcs8 -in releasekey.pk8 -inform DER -out releasekey -nocrypt
+      openssl pkcs8 -in platform.pk8 -inform DER -out platform -nocrypt
+      openssl pkcs8 -in shared.pk8 -inform DER -out shared -nocrypt
+      openssl pkcs8 -in media.pk8 -inform DER -out media -nocrypt
+      openssl pkcs8 -in networkstack.pk8 -inform DER -out networkstack -nocrypt
+      openssl pkcs8 -in testkey.pk8 -inform DER -out testkey -nocrypt
       rm -rf certs.zip
       cd /ham-build
 
@@ -90,7 +107,4 @@ build:
     run: /ham-recipe/scripts/build.sh
 
 post_build:
-  - cd /ham-build
-  - wget -O pyuploadtool -q https://github.com/TheAssassin/pyuploadtool/releases/download/continuous/pyuploadtool-x86_64.AppImage
-  - chmod +x pyuploadtool
-  #- ./uploadtool /ham-output/*
+  - /ham-recipe/scripts/upload.sh
