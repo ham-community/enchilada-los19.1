@@ -103,8 +103,17 @@ build:
       cd /ham-build/android
       repo sync < /dev/null
 
-  - name: Building and Signing LineageOS
-    run: /ham-recipe/scripts/build.sh
+  - name: Breakfast Enchilada
+    run: /ham-recipe/scripts/build-prep.sh
+
+  - name: Download Firmware
+    run: /ham-recipe/scripts/download-stock-os.sh
+
+  - name: Extract Radio Blobs
+    run: /ham-recipe/scripts/get-images.sh
+
+  - name: Make, Sign and Release
+    run: /ham-recipe/scripts/make-and-sign.sh
 
 post_build:
   - /ham-recipe/scripts/upload.sh
