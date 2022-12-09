@@ -14,11 +14,16 @@ args:
     type: value
 
 build:
+  - name: Set Python3 as Default
+    run: |
+      apt install -y -qq python-is-python3
+
   - name: Copy Android Certificates
     run: |
       cd /root/
-      mv $ANDROID_CERTS certs.zip
-      mkdir .android-certs
+      cp $ANDROID_CERTS certs.zip
+      rm -rf .android-certs
+      mkdir -p .android-certs
       mv certs.zip .android-certs/certs.zip
       cd .android-certs
       unzip certs.zip
@@ -27,14 +32,15 @@ build:
 
   - name: Make Required Directories
     run: |
-      mkdir android
-      mkdir apks
-      cd android 
+      cd /ham-build
+      mkdir -p android
+      mkdir -p apks
 
   - name: Repo Init LineageOS-19.1
     run: |
-      repo init -u https://github.com/LineageOS/android.git -b lineage-19.1
-      repo sync
+      cd /ham-build/android
+      repo init -u https://github.com/LineageOS/android.git -b lineage-19.1 < /dev/null
+      repo sync < /dev/null
       mkdir -p .repo/local_manifests
 
   - name: Add F-Droid PrivilegedExtensions 
