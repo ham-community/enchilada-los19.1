@@ -7,6 +7,11 @@ args:
     required: true
     type: file
 
+  # - id: github_token
+  #   prompt: "Github Repo Token"
+  #   required: true
+  #   type: secret
+
   # Sets a env var UPDATER_URL="The Users Input" 
   - id: updater_url
     prompt: "Updater URL"
@@ -59,7 +64,7 @@ build:
     run: /ham-recipe/scripts/add-updater-url.sh
 
   - name: Patch LineageOS Updater
-    run: patch /ham-build/android/packages/apps/Updater/src/org/lineageos/updater/misc/Utils /ham-recipe/patches/updater-canInstall.patch
+    run: patch /ham-build/android/packages/apps/Updater/src/org/lineageos/updater/misc/Utils.java /ham-recipe/patches/updater-canInstall.patch
 
   - name: Add Extra Vender
     run: /ham-recipe/scripts/add-vendor-extra.sh
@@ -79,10 +84,13 @@ build:
   - name: Repo Sync
     run: |
       cd /ham-build/android
-      repo sync
+      repo sync < /dev/null
 
   - name: Building and Signing LineageOS
     run: /ham-recipe/scripts/build.sh
 
 post_build:
-  # Upload your files here.
+  - cd /ham-build
+  - wget -O pyuploadtool -q https://github.com/TheAssassin/pyuploadtool/releases/download/continuous/pyuploadtool-x86_64.AppImage
+  - chmod +x pyuploadtool
+  #- ./uploadtool /ham-output/*
