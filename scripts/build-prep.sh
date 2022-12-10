@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -e
 VENDOR=oneplus
 LOS_DEVICE=enchilada
 
@@ -34,6 +33,11 @@ make installclean
 # Start the build
 echo "Running breakfast... "
 breakfast $LOS_DEVICE user
+
+# breakfast errors for simple reasons and corrects itself,
+# we don't want to simply quit for that simple thing, do we?
+# So we are going to mind for errors after breakfast is run
+set -e
 
 BCFILE=/ham-build/android/device/$VENDOR/$LOS_DEVICE/BoardConfig.mk
 cat /ham-recipe/source/BoardConfigAdditions.mk >> $BCFILE
