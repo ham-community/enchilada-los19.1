@@ -56,7 +56,6 @@ build:
     run: |
       cd /ham-build
       mkdir -p android
-      mkdir -p apks
 
   - name: Repo Init LineageOS-19.1
     run: |
