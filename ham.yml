@@ -33,6 +33,9 @@ build:
     run: |
       apt install -y -qq python-is-python3
 
+  - name: Install GO Tools
+    run: /ham-recipe/scripts/install-go-tools.sh
+
   - name: Copy Android Certificates
     run: |
       cd /root/

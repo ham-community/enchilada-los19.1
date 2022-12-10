@@ -1,5 +1,5 @@
-#!/usr/bin/env bash
-
+#!/usr/bin/bash -i
+#
 set -e
 
 if [[ -z "$GITHUB_TOKEN" ]]; then
@@ -17,15 +17,7 @@ if [[ -z "$GITHUB_USER" ]]; then
    exit 0
 fi
 
-cd /ham-build
+cd /ham-output
 
-wget "https://github.com/tcnksm/ghr/releases/download/v0.16.0/ghr_v0.16.0_linux_amd64.tar.gz"
-tar -xvf ghr_v0.16.0_linux_amd64.tar.gz
-rm -rf ghr_v0.16.0_linux_amd64.tar.gz
-
-mv ghr_v0.16.0_linux_amd64/ghr /usr/bin/ghr
-rm -rf ghr_v0.16.0_linux_amd64
-
-# Tag is TODAY
-TODAY=$(date +"%Y%m%d")
-ghr -u $GITHUB_USER -r $GITHUB_REPO -delete $TODAY /ham-output/*
+export TODAY=$(date +"%Y%m%d")
+ghr -delete -t "${GITHUB_TOKEN}" -u "${GITHUB_USER}" -r "${GITHUB_REPO}" "${TODAY}" /ham-output/*

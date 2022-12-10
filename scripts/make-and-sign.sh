@@ -111,15 +111,18 @@ if [ -f /ham-output/$PKGNAME.zip ]; then
    rm /ham-output/payload.bin
 
    # Build the new recovery filename for the release.
-   RECOVERYNAME="/ham-output/LineageOS-19.1-$TODAY-recovery-$LOS_DEVICE"
+   RECOVERYNAME="/ham-output/lineage-19.1-$TODAY-recovery-$LOS_DEVICE"
    
    # Move and zip the recovery image to the proper release directory.
    mv $RECOVERYFILE.img $RECOVERYNAME.img
    zip -j $RECOVERYNAME.zip $RECOVERYNAME.img
    rm $RECOVERYNAME.img
 
+   # Make pkmd.bin file
+   /ham-build/android/external/avb/avbtool extract_public_key --key ~/.android-certs/releasekey.key --output /root/.android-certs/pkmd.bin
+
    # Now add the appropriate pkmd.bin file to the recovery zip for user convenience.
-   # zip -j $RECOVERYNAME.zip /root/.android-certs/pkmd.bin
+   zip -j $RECOVERYNAME.zip /root/.android-certs/pkmd.bin
 else
    echo "ERROR: Release file (/ham-output/$PKGNAME.zip) not found!"
    exit -1

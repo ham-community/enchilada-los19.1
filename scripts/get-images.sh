@@ -25,12 +25,8 @@ cd /ham-build/firmware/
 # Extract the payload.bin file from stock.
 unzip -o /ham-build/stock_os/current-stock-os.zip payload.bin
 
-wget "https://github.com/ssut/payload-dumper-go/releases/download/1.2.2/payload-dumper-go_1.2.2_linux_amd64.tar.gz"
-tar -xvf payload-dumper-go_1.2.2_linux_amd64.tar.gz
-rm -rf payload-dumper-go_1.2.2_linux_amd64.tar.gz
-
 # Extract img files
-./payload-dumper-go -o images_raw payload.bin
+payload-dumper-go -o images_raw payload.bin
 
 # Change in to the output directory.
 cd images_raw
