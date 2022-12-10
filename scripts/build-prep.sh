@@ -32,7 +32,7 @@ make installclean
 
 # Start the build
 echo "Running breakfast... "
-breakfast $LOS_DEVICE user
+breakfast $LOS_DEVICE user || true
 
 # breakfast errors for simple reasons and corrects itself,
 # we don't want to simply quit for that simple thing, do we?
@@ -73,3 +73,5 @@ IQFILE=/ham-build/android/device/$VENDOR/sdm845-common/rootdir/etc/init.qcom.rc
 if ! grep "oem_stanvbk_a" $IQFILE > /dev/null; then
    patch $IQFILE /ham-recipe/patches/init.qcom.rc.patch
 fi
+
+true
