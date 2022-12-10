@@ -73,6 +73,9 @@ build:
   - name: Add The Muppets
     run: cp /ham-recipe/source/TheMuppets.xml /ham-build/android/.repo/local_manifests
 
+  - name: Add OpenGAPPS
+    run: cp /ham-recipe/source/OpenGAPPS.xml /ham-build/android/.repo/local_manifests
+
   - name: Patch LineageOS to Enable AVB
     run: |
       patch /ham-build/android/build/make/core/Makefile /ham-recipe/patches/core_Makefile.patch
@@ -95,6 +98,14 @@ build:
     run: |
       cd /ham-build/android
       repo sync < /dev/null
+
+  - name: OpenGAPPS LFS
+    run: |
+      cd /ham-build/android
+      git lfs install
+      repo forall -c git lfs install
+      repo forall -c git lfs pull
+      repo forall -c git lfs fetch
 
   - name: Breakfast Enchilada
     run: /ham-recipe/scripts/build-prep.sh

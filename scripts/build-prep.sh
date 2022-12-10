@@ -74,4 +74,11 @@ if ! grep "oem_stanvbk_a" $IQFILE > /dev/null; then
    patch $IQFILE /ham-recipe/patches/init.qcom.rc.patch
 fi
 
+# OpenGAPPS
+mv /ham-build/android/device/$VENDOR/$LOS_DEVICE/device.mk /tmp/device.mk
+echo "GAPPS_VARIANT := micro" > /ham-build/android/device/$VENDOR/$LOS_DEVICE/device.mk
+cat /tmp/device.mk >> /ham-build/android/device/$VENDOR/$LOS_DEVICE/device.mk
+echo "# GAPPS" >> /ham-build/android/device/$VENDOR/$LOS_DEVICE/device.mk
+echo "\$(call inherit-product, vendor/opengapps/build/opengapps-packages.mk)" >> /ham-build/android/device/$VENDOR/$LOS_DEVICE/device.mk 
+
 true
