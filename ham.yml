@@ -89,15 +89,6 @@ build:
   - name: Remove LineageOS Keys
     run: /ham-recipe/scripts/remove-lineage-keys.sh
 
-  - name: Get Latest F-Droid APK
-    run: |
-      cd /ham-build/apks
-      /ham-recipe/scripts/get_fdroid.sh
-      cd /ham-build/android
-
-  - name: Add F-Droid
-    run: /ham-recipe/scripts/add-fdroid-apk.sh
-
   - name: Repo Sync
     run: |
       cd /ham-build/android
