@@ -28,7 +28,7 @@ export TARGET_BUILD_VARIANT
 TARGET_PRODUCT=lineage_$LOS_DEVICE
 export TARGET_PRODUCT
 
-breakfast $LOS_DEVICE user
+breakfast $LOS_DEVICE user || true
 
 # Package the files
 echo "Making target packages for $DEVICE..."
