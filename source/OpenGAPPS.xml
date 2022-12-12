@@ -4,6 +4,7 @@
    <remote name="opengapps-gitlab" fetch="https://gitlab.opengapps.org/opengapps/"  />
 
    <project path="vendor/opengapps/build" name="aosp_build" revision="master" remote="opengapps" />
+   <project path="vendor/opengapps/sources/all" name="all" clone-depth="1" revision="master" remote="opengapps-gitlab" />
 
    <!-- arm64 depends on arm -->
    <project path="vendor/opengapps/sources/arm" name="arm" clone-depth="1" revision="master" remote="opengapps-gitlab" />
