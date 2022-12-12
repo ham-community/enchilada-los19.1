@@ -20,4 +20,4 @@ fi
 cd /ham-output
 
 export TODAY=$(date +"%Y%m%d")
-ghr -delete -t "${GITHUB_TOKEN}" -u "${GITHUB_USER}" -r "${GITHUB_REPO}" "${TODAY}" /ham-output/*
+ghr -delete -t "${GITHUB_TOKEN}" -u "${GITHUB_USER}" -r "${GITHUB_REPO}" "${TODAY}" /ham-output/
