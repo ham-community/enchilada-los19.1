@@ -64,7 +64,7 @@ build:
     run: |
       cd /ham-build/android
       repo init -u https://github.com/LineageOS/android.git -b lineage-19.1 < /dev/null
-      repo sync < /dev/null
+      repo sync -j20 -c < /dev/null
       mkdir -p .repo/local_manifests
 
   - name: Add F-Droid PrivilegedExtensions 
@@ -97,7 +97,7 @@ build:
   - name: Repo Sync
     run: |
       cd /ham-build/android
-      repo sync < /dev/null
+      repo sync -j20 -c < /dev/null
 
   - name: Breakfast Enchilada
     run: /ham-recipe/scripts/build-prep.sh
