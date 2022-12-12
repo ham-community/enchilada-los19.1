@@ -1,4 +1,4 @@
-title: "Lineage OS 19.1 (Enchilada) (Signed) (With GAPPS Micro)"
+title: "Lineage OS 19.1 (Enchilada) (Signed) (MindTheGapps)"
 version: "0.1.0"
 
 args:
@@ -73,8 +73,8 @@ build:
   - name: Add The Muppets
     run: cp /ham-recipe/source/TheMuppets.xml /ham-build/android/.repo/local_manifests
 
-  - name: Add OpenGAPPS
-    run: cp /ham-recipe/source/OpenGAPPS.xml /ham-build/android/.repo/local_manifests
+  - name: Add MindTheGapps
+    run: cp /ham-recipe/source/GAPPS.xml /ham-build/android/.repo/local_manifests
 
   - name: Patch LineageOS to Enable AVB
     run: |
@@ -98,14 +98,6 @@ build:
     run: |
       cd /ham-build/android
       repo sync < /dev/null
-
-  - name: OpenGAPPS LFS
-    run: |
-      cd /ham-build/android
-      git lfs install
-      repo forall -c git lfs install
-      repo forall -c git lfs pull
-      repo forall -c git lfs fetch
 
   - name: Breakfast Enchilada
     run: /ham-recipe/scripts/build-prep.sh

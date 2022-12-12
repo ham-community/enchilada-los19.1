@@ -1,3 +1,6 @@
+# I have no idea why this is required.
+# PRODUCT_BROKEN_VERIFY_USES_LIBRARIES := true
+
 # Seems to be a lot of trouble to get F-Droid Directly
 # installed in the ROM. I might be doing something
 # wrong but let's see.
