@@ -3,8 +3,6 @@
 Ham Recipe for building LineageOS 19.1 for OnePlus 6 (Enchilada) (Signed Builds). With this build
 you can relock your Bootloader and still use LineageOS. 
 
-(WORK IN PROGRESS, WILL BE UPDATED SOON)
-
 This branch of the ham recipe builds MindTheGapps right into your ROM so you can still use Google Play
 Store with your signed build instead of patching it in a hacky way. Also this enables you to lock your
 bootloader along with the GAPPS working just fine.
