@@ -103,6 +103,7 @@ build:
     run: |
       cd /ham-build/android
       repo sync -j20 -c < /dev/null
+      repo forall -c git lfs pull
 
   - name: Breakfast Enchilada
     run: /ham-recipe/scripts/build-prep.sh
