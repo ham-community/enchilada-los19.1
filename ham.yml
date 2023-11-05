@@ -69,7 +69,7 @@ build:
     run: |
       cd /ham-build/android
       repo init -u https://github.com/LineageOS/android.git -b lineage-19.1 < /dev/null
-      retry -t 2 "timeout 20m repo sync -j20 -c < /dev/null"
+      retry -t 2 "timeout 10m repo sync -j20 -c < /dev/null"
       mkdir -p .repo/local_manifests
 
   - name: Add F-Droid PrivilegedExtensions 
