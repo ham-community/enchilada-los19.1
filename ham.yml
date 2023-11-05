@@ -1,5 +1,5 @@
 title: "Lineage OS 19.1 (Enchilada) (Signed) (MindTheGapps)"
-version: "0.1.0"
+version: "0.1.1"
 
 args:
   - id: android_certs
@@ -60,11 +60,16 @@ build:
       cd /ham-build
       mkdir -p android
 
+  - name: Install Retry Command
+    run: |
+      curl https://raw.githubusercontent.com/kadwanev/retry/master/retry -o /usr/bin/retry
+      chmod +x /usr/bin/retry
+
   - name: Repo Init LineageOS-19.1
     run: |
       cd /ham-build/android
       repo init -u https://github.com/LineageOS/android.git -b lineage-19.1 < /dev/null
-      repo sync -j20 -c < /dev/null
+      retry -t 2 timeout 20m repo sync -j20 -c < /dev/null
       mkdir -p .repo/local_manifests
 
   - name: Add F-Droid PrivilegedExtensions 
