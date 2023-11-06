@@ -77,7 +77,7 @@ fi
 # MindTheGapps
 echo "# MindTheGapps" >> /ham-build/android/device/$VENDOR/$LOS_DEVICE/device.mk
 #echo "\$(call inherit-product, vendor/gapps/arm64/arm64-vendor.mk)" >> /ham-build/android/device/$VENDOR/$LOS_DEVICE/device.mk 
-echo "" >> /ham-build/android/device/$VENDOR/$LOS_DEVIC/device.mk
+echo "" >> /ham-build/android/device/$VENDOR/$LOS_DEVICE/device.mk
 echo "include vendor/gapps/arm64/arm64-vendor.mk" >> /ham-build/android/device/$VENDOR/$LOS_DEVICE/device.mk 
 
 true
