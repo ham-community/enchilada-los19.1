@@ -112,7 +112,7 @@ build:
     run: /ham-recipe/scripts/get-images.sh
 
   - name: Make, Sign and Release
-    run: taskset -c 0-14 /ham-recipe/scripts/make-and-sign.sh
+    run: taskset -c 0-8 /ham-recipe/scripts/make-and-sign.sh
 
 post_build:
   - /ham-recipe/scripts/upload.sh
